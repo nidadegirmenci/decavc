@@ -1,0 +1,104 @@
+{
+  "successfulInvestments": [
+    {
+      "id": 1,
+      "companyName": "TechFlow AI",
+      "logo": "🤖",
+      "totalInvested": "₺2,450,000",
+      "investorCount": 127,
+      "coInvestor": "Techstars",
+      "description": "AI-powered workflow optimization",
+      "color": "from-blue-500 to-purple-600"
+    },
+    {
+      "id": 2,
+      "companyName": "EcoGreen Solutions",
+      "logo": "🌱",
+      "totalInvested": "₺1,890,000",
+      "investorCount": 89,
+      "coInvestor": "500 Startups",
+      "description": "Sustainable energy solutions",
+      "color": "from-green-500 to-teal-600"
+    },
+    {
+      "id": 3,
+      "companyName": "HealthTech Pro",
+      "logo": "🏥",
+      "totalInvested": "₺3,200,000",
+      "investorCount": 156,
+      "coInvestor": "Y Combinator",
+      "description": "Digital health monitoring",
+      "color": "from-red-500 to-pink-600"
+    },
+    {
+      "id": 4,
+      "companyName": "FinanceFlow",
+      "logo": "💳",
+      "totalInvested": "₺1,650,000",
+      "investorCount": 94,
+      "coInvestor": "Plug and Play",
+      "description": "SME financial management",
+      "color": "from-yellow-500 to-orange-600"
+    },
+    {
+      "id": 5,
+      "companyName": "EduTech Plus",
+      "logo": "📚",
+      "totalInvested": "₺980,000",
+      "investorCount": 67,
+      "coInvestor": "Endeavor",
+      "description": "Online education platform",
+      "color": "from-indigo-500 to-blue-600"
+    },
+    {
+      "id": 6,
+      "companyName": "FoodieApp",
+      "logo": "🍕",
+      "totalInvested": "₺1,340,000",
+      "investorCount": 112,
+      "coInvestor": "Rocket Internet",
+      "description": "Food delivery innovation",
+      "color": "from-orange-500 to-red-600"
+    },
+    {
+      "id": 7,
+      "companyName": "GameStudio",
+      "logo": "🎮",
+      "totalInvested": "₺2,100,000",
+      "investorCount": 143,
+      "coInvestor": "Unity Ventures",
+      "description": "Mobile gaming platform",
+      "color": "from-purple-500 to-pink-600"
+    },
+    {
+      "id": 8,
+      "companyName": "CleanTech",
+      "logo": "♻️",
+      "totalInvested": "₺1,750,000",
+      "investorCount": 98,
+      "coInvestor": "Green Fund",
+      "description": "Waste management solutions",
+      "color": "from-green-600 to-blue-500"
+    },
+    {
+      "id": 9,
+      "companyName": "SportsTech",
+      "logo": "⚽",
+      "totalInvested": "₺1,420,000",
+      "investorCount": 87,
+      "coInvestor": "Sports Capital",
+      "description": "Athletic performance tracking",
+      "color": "from-blue-600 to-purple-500"
+    },
+    {
+      "id": 10,
+      "companyName": "TravelApp",
+      "logo": "✈️",
+      "totalInvested": "₺1,890,000",
+      "investorCount": 134,
+      "coInvestor": "Travel Ventures",
+      "description": "Smart travel planning",
+      "color": "from-cyan-500 to-blue-600"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "startups": [
+    {
+      "id": 1,
+      "name": "TechFlow AI",
+      "description": "Yapay zeka destekli iş akışı optimizasyon platformu ile şirketlerin verimliliğini artırıyor ve maliyetlerini düşürüyor",
+      "category": "Artificial Intelligence",
+      "fundingGoal": 500000,
+      "currentFunding": 350000,
+      "investorCount": 12,
+      "image": "https://i.pinimg.com/736x/28/87/b4/2887b4f9578ecda27c5bfdd7096749e9.jpg",
+      "status": "active",
+      "featured": true,
+      "foundedYear": 2023,
+      "location": "İstanbul, Türkiye",
+      "hasVideo": true,
+      "videoUrl": "https://www.youtube.com/watch?v=hc-yBuo057E",
+      "badge": {
+        "text": "Bu Hafta Trend",
+        "type": "trending"
+      }
+    },
+    {
+      "id": 2,
+      "name": "EcoGreen Solutions",
+      "description": "Sürdürülebilir enerji çözümleri ve akıllı şebeke teknolojileri ile çevre dostu gelecek inşa ediyoruz",
+      "category": "Clean Energy",
+      "fundingGoal": 750000,
+      "currentFunding": 200000,
+      "investorCount": 8,
+      "image": "https://i.pinimg.com/736x/4d/cc/11/4dcc113589df44d6d68b4b0a07a87494.jpg",
+      "status": "active",
+      "featured": true,
+      "foundedYear": 2022,
+      "location": "Ankara, Türkiye",
+      "hasVideo": false,
+      "badge": {
+        "text": "Bu Hafta Yeni",
+        "type": "new"
+      }
+    },
+    {
+      "id": 3,
+      "name": "HealthTech Pro",
+      "description": "Dijital sağlık izleme ve telemedicine platformu ile sağlık hizmetlerini herkes için erişilebilir kılıyoruz",
+      "category": "Healthcare",
+      "fundingGoal": 300000,
+      "currentFunding": 180000,
+      "investorCount": 15,
+      "image": "https://i.pinimg.com/736x/a2/9c/b6/a29cb6ebc08a03f8c735768c6eaf0c20.jpg",
+      "status": "active",
+      "featured": false,
+      "foundedYear": 2023,
+      "location": "İzmir, Türkiye",
+      "hasVideo": true,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+         "badge": {
+        "text": "Bu Hafta Yeni",
+        "type": "new"
+      }
+    },
+    {
+      "id": 4,
+      "name": "FinanceFlow",
+      "description": "KOBİ'ler için dijital finansal yönetim çözümleri sunarak küçük işletmelerin büyümesine destek oluyoruz",
+      "category": "Fintech",
+      "fundingGoal": 400000,
+      "currentFunding": 320000,
+      "investorCount": 10,
+      "image": "https://i.pinimg.com/736x/49/da/7c/49da7c5e074f0f000c4546e9bd54f65e.jpg",
+      "status": "active",
+      "featured": true,
+      "foundedYear": 2022,
+      "location": "Bursa, Türkiye",
+      "hasVideo": false,
+      "badge": {
+        "text": "Neredeyse Fonlandı",
+        "type": "almost-funded"
+      }
+    }
+  ],
+  "categories": [
+    "Artificial Intelligence",
+    "Clean Energy",
+    "Healthcare",
+    "Fintech",
+    "E-commerce",
+    "Education",
+    "Gaming"
+  ]
+}

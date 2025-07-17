@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowLeft, Save, Upload, Plus, X, Linkedin, Instagram, Youtube, Facebook, Globe, Twitter } from "lucide-react"
+import { ArrowLeft, Save, Upload, Plus, X, Trash, Linkedin, Instagram, Youtube, Facebook, Globe, Twitter } from "lucide-react"
+import dynamic from 'next/dynamic'
+const PitchEditor = dynamic(() => import('@/components/PitchEditor/editor'), {
+  ssr: false,
+})
+
+
 
 const sectors = [
   "Teknoloji",
@@ -68,6 +74,29 @@ export default function CampaignEditorPage() {
 
     // Attachments
     attachments: [] as string[],
+
+    // Highlights
+    highlights: ["", ""],
+    // Team Members
+    teamMembers: [] as {
+      name: string
+      email: string
+      title: string
+      bio: string
+      image: string
+      isFounder: boolean
+      isEditor: boolean
+    }[],
+    hiddenTeamMembers: [] as {
+      name: string
+      email: string
+      role: string
+      isEditor: boolean
+    }[],
+
+    pitchTitle: "",
+    pitchContent: "",
+
   })
 
   useEffect(() => {
@@ -108,6 +137,11 @@ export default function CampaignEditorPage() {
 
             // Attachments
             attachments: parsedUser.campaign.basics?.attachments || [],
+            highlights: parsedUser.campaign.highlights || ["", ""],
+            teamMembers: parsedUser.campaign.teamMembers || [],
+            hiddenTeamMembers: parsedUser.campaign.hiddenTeamMembers || [],
+            pitchTitle: formData.pitchTitle,
+            pitchContent: formData.pitchContent,
           })
         } else {
           // Create new campaign
@@ -122,6 +156,9 @@ export default function CampaignEditorPage() {
             published: false,
             status: "draft",
             basics: {},
+            highlights: ["", ""],
+            teamMembers: [],
+            hiddenTeamMembers: []
           }
           setCampaign(newCampaign)
         }
@@ -151,6 +188,8 @@ export default function CampaignEditorPage() {
         sector: formData.sector,
         stage: formData.stage,
         fundingGoal: Number.parseInt(formData.fundingGoal) || 0,
+        highlights: formData.highlights,
+
         basics: {
           tagline: formData.tagline,
           mainImage: formData.mainImage,
@@ -166,6 +205,8 @@ export default function CampaignEditorPage() {
           twitter: formData.twitter,
           attachments: formData.attachments,
         },
+        teamMembers: formData.teamMembers,
+        hiddenTeamMembers: formData.hiddenTeamMembers,
       }
 
       // Update user data
@@ -262,41 +303,36 @@ export default function CampaignEditorPage() {
               <nav className="space-y-1">
                 <button
                   onClick={() => setActiveSection("basics")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "basics" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "basics" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Temel Bilgiler
                 </button>
                 <button
                   onClick={() => setActiveSection("highlights")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "highlights" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "highlights" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Öne Çıkanlar
                 </button>
                 <button
                   onClick={() => setActiveSection("team")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "team" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "team" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Takım
                 </button>
                 <button
                   onClick={() => setActiveSection("pitch")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "pitch" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "pitch" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Sunum
                 </button>
                 <button
                   onClick={() => setActiveSection("investors")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "investors" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "investors" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Öne Çıkan Yatırımcılar
                 </button>
@@ -309,17 +345,15 @@ export default function CampaignEditorPage() {
               <nav className="space-y-1">
                 <button
                   onClick={() => setActiveSection("contract")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "contract" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "contract" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Sözleşme
                 </button>
                 <button
                   onClick={() => setActiveSection("perks")}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
-                    activeSection === "perks" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${activeSection === "perks" ? "bg-purple-100 text-purple-700" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   Avantajlar
                 </button>
@@ -652,18 +686,273 @@ export default function CampaignEditorPage() {
               </div>
             )}
 
+            {/* Highlights Section */}
+            {activeSection === "highlights" && (
+              <div className="max-w-3xl mx-auto p-6">
+                <h2 className="text-2xl font-bold mb-2 text-gray-800">Öne Çıkanlar</h2>
+                <p className="text-gray-600 mb-6">
+                  Şirketinizle gurur duyduğunuz en az 2 gerçeği bizimle paylaşın. Örneğin: müşteri kazanımı, takım geçmişi veya başka başarılar.
+                </p>
+
+                {formData.highlights.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2 mb-4">
+                    <input
+                      type="text"
+                      value={item}
+                      onChange={(e) => {
+                        const newHighlights = [...formData.highlights]
+                        newHighlights[index] = e.target.value
+                        setFormData((prev) => ({ ...prev, highlights: newHighlights }))
+                      }}
+                      className="flex-1 p-2 border border-gray-300 rounded-xl"
+                      placeholder={`Başarı ${index + 1}`}
+                    />
+                    <button
+                      onClick={() => {
+                        const newHighlights = formData.highlights.filter((_, i) => i !== index)
+                        setFormData((prev) => ({ ...prev, highlights: newHighlights }))
+                      }}
+                      className="text-red-500 hover:text-red-700"
+                      title="Sil"
+                    >
+                      <Trash size={18} />
+                    </button>
+                  </div>
+                ))}
+
+                <button
+                  onClick={() => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      highlights: [...prev.highlights, ""],
+                    }))
+                  }}
+                  className="flex items-center gap-2 mt-4 text-purple-600 hover:text-purple-800 font-medium"
+                >
+                  <Plus size={18} />
+                  Yeni Başarı Ekle
+                </button>
+              </div>
+            )}
+            {/* Team Section */}
+            {activeSection === "team" && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold">Takım</h2>
+
+                {/* Görünür Takım Üyeleri */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Görünür Takım Üyeleri</h3>
+                  {formData.teamMembers?.map((member, index) => (
+                    <div key={index} className="border p-4 rounded-md space-y-2 bg-gray-50">
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="Ad Soyad"
+                        value={member.name}
+                        onChange={(e) => {
+                          const updated = [...formData.teamMembers]
+                          updated[index].name = e.target.value
+                          setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                        }}
+                      />
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="E-posta"
+                        value={member.email}
+                        onChange={(e) => {
+                          const updated = [...formData.teamMembers]
+                          updated[index].email = e.target.value
+                          setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                        }}
+                      />
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="Unvan"
+                        value={member.title}
+                        onChange={(e) => {
+                          const updated = [...formData.teamMembers]
+                          updated[index].title = e.target.value
+                          setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                        }}
+                      />
+                      <textarea
+                        className="w-full p-2 border rounded"
+                        placeholder="Biyografi"
+                        value={member.bio}
+                        onChange={(e) => {
+                          const updated = [...formData.teamMembers]
+                          updated[index].bio = e.target.value
+                          setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                        }}
+                      />
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="Görsel URL"
+                        value={member.image}
+                        onChange={(e) => {
+                          const updated = [...formData.teamMembers]
+                          updated[index].image = e.target.value
+                          setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                        }}
+                      />
+                      <div className="flex gap-4">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={member.isFounder}
+                            onChange={(e) => {
+                              const updated = [...formData.teamMembers]
+                              updated[index].isFounder = e.target.checked
+                              setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                            }}
+                          />
+                          <span className="ml-2">Kurucu</span>
+                        </label>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={member.isEditor}
+                            onChange={(e) => {
+                              const updated = [...formData.teamMembers]
+                              updated[index].isEditor = e.target.checked
+                              setFormData((prev) => ({ ...prev, teamMembers: updated }))
+                            }}
+                          />
+                          <span className="ml-2">Editör</span>
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    className="px-4 py-2 bg-purple-200 text-white rounded"
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        teamMembers: [
+                          ...(prev.teamMembers || []),
+                          {
+                            name: "",
+                            email: "",
+                            title: "",
+                            bio: "",
+                            image: "",
+                            isFounder: false,
+                            isEditor: false,
+                          },
+                        ],
+                      }))
+                    }
+                  >
+                    + Takım Üyesi Ekle
+                  </button>
+                </div>
+
+                {/* Gizli Takım Üyeleri */}
+                <div className="space-y-4 mt-10">
+                  <h3 className="text-lg font-semibold">Gizli Takım Üyeleri</h3>
+                  {formData.hiddenTeamMembers?.map((member, index) => (
+                    <div key={index} className="border p-4 rounded-md space-y-2 bg-gray-50">
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="Ad Soyad"
+                        value={member.name}
+                        onChange={(e) => {
+                          const updated = [...formData.hiddenTeamMembers]
+                          updated[index].name = e.target.value
+                          setFormData((prev) => ({ ...prev, hiddenTeamMembers: updated }))
+                        }}
+                      />
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="E-posta"
+                        value={member.email}
+                        onChange={(e) => {
+                          const updated = [...formData.hiddenTeamMembers]
+                          updated[index].email = e.target.value
+                          setFormData((prev) => ({ ...prev, hiddenTeamMembers: updated }))
+                        }}
+                      />
+                      <input
+                        className="w-full p-2 border rounded"
+                        placeholder="Rol (örn. Avukat)"
+                        value={member.role}
+                        onChange={(e) => {
+                          const updated = [...formData.hiddenTeamMembers]
+                          updated[index].role = e.target.value
+                          setFormData((prev) => ({ ...prev, hiddenTeamMembers: updated }))
+                        }}
+                      />
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={member.isEditor}
+                          onChange={(e) => {
+                            const updated = [...formData.hiddenTeamMembers]
+                            updated[index].isEditor = e.target.checked
+                            setFormData((prev) => ({ ...prev, hiddenTeamMembers: updated }))
+                          }}
+                        />
+                        <span className="ml-2">Editör</span>
+                      </label>
+                    </div>
+                  ))}
+
+                  <button
+                    className="px-4 py-2 bg-gray-600 text-white rounded"
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        hiddenTeamMembers: [
+                          ...(prev.hiddenTeamMembers || []),
+                          {
+                            name: "",
+                            email: "",
+                            role: "",
+                            isEditor: false,
+                          },
+                        ],
+                      }))
+                    }
+                  >
+                    + Gizli Üye Ekle
+                  </button>
+                </div>
+              </div>
+            )}
+
+{activeSection === "pitch" && (
+  <div className="editor-wrapper">
+    <h2 className="pitch-title">Sunum</h2>
+    <p className="pitch-desc">
+      Yatırımcıları hikayene ikna et: büyüme, takım ve vizyonunu anlat.
+    </p>
+
+    <input
+      type="text"
+      value={formData.pitchTitle}
+      onChange={(e) => handleInputChange("pitchTitle", e.target.value)}
+      placeholder="Sunum başlığını yaz..."
+      className="pitch-input"
+    />
+
+    <PitchEditor
+      content={formData.pitchContent}
+      onContentChange={(html: string) => handleInputChange("pitchContent", html)}
+    />
+  </div>
+)}
+
+
             {/* Other sections placeholder */}
             {activeSection !== "basics" && (
               <div className="text-center py-12">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  {activeSection === "highlights" && "Öne Çıkanlar"}
-                  {activeSection === "team" && "Takım"}
-                  {activeSection === "pitch" && "Sunum"}
+          
                   {activeSection === "investors" && "Öne Çıkan Yatırımcılar"}
                   {activeSection === "contract" && "Sözleşme"}
                   {activeSection === "perks" && "Avantajlar"}
                 </h2>
-                <p className="text-gray-600">Bu bölüm yakında eklenecek.</p>
+
               </div>
             )}
           </div>
